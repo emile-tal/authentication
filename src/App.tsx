@@ -1,13 +1,17 @@
-import './App.css'
+import './App.scss'
 
-import { LoginForm } from './components/LoginForm/LoginForm'
+import { BrowserRouter, Route, Routes } from 'react-router-dom'
+
+import { LoginPage } from './pages/LoginPage/LoginPage'
 
 function App() {
 
   return (
-    <>
-      <LoginForm />
-    </>
+    <BrowserRouter>
+      <Routes>
+        <Route path='/login' element={<LoginPage />} />
+      </Routes>
+    </BrowserRouter>
   )
 }
 
