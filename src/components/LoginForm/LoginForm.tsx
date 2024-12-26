@@ -1,15 +1,23 @@
 import axios from 'axios'
 import { useState } from "react"
 
-export function LoginForm() {
-    const [email, setEmail] = useState<string>('')
-    const [password, setPassword] = useState<string>('')
+interface Props {
+    login: boolean
+}
+
+export function LoginForm({ login }: Props) {
+    const [email, setEmail] = useState('')
+    const [password, setPassword] = useState('')
+    const [firstName, setFirstName] = useState('')
+    const [lastName, setLastName] = useState('')
 
     const baseUrl = import.meta.env.VITE_API_URL
 
     interface User {
-        email: string;
-        password: string;
+        email: string
+        password: string
+        firstName?: string
+        lastName?: string
     }
 
     const postLogin = async (user: User) => {
@@ -28,6 +36,14 @@ export function LoginForm() {
         setPassword(event.target.value)
     }
 
+    const handleFirstNameChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+        setFirstName(event.target.value)
+    }
+
+    const handleLastNameChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+        setLastName(event.target.value)
+    }
+
     const handleLogin = (event: React.FormEvent) => {
         event.preventDefault()
         const user = {
@@ -43,28 +59,33 @@ export function LoginForm() {
         event.preventDefault()
         const user = {
             email: email,
-            password: password
+            password: password,
+            firstName: firstName,
+            lastName: lastName
         }
         setEmail('')
         setPassword('')
+        setFirstName('')
+        setLastName('')
         postRegister(user)
     }
 
     return (
         <>
-            <form onSubmit={handleLogin}>
+            <form onSubmit={login ? handleLogin : handleRegister}>
+                {login ? '' : (
+                    <>
+                        <label htmlFor="firstName">First Name</label>
+                        <input type="text" name="firstName" value={firstName} onChange={handleFirstNameChange} />
+                        <label htmlFor="lastName">Last Name</label>
+                        <input type="text" name="lastName" value={lastName} onChange={handleLastNameChange} />
+                    </>
+                )}
                 <label htmlFor="email">Email</label>
                 <input type="text" name="email" value={email} onChange={handleEmailChange} />
                 <label htmlFor="password">Password</label>
                 <input type="password" name="password" value={password} onChange={handlePasswordChange} />
-                <button type='submit'>Login</button>
-            </form>
-            <form onSubmit={handleRegister}>
-                <label htmlFor="email">Email</label>
-                <input type="text" name="email" value={email} onChange={handleEmailChange} />
-                <label htmlFor="password">Password</label>
-                <input type="password" name="password" value={password} onChange={handlePasswordChange} />
-                <button type='submit'>Register</button>
+                <button type='submit'>{login ? 'Login' : 'Register'}</button>
             </form>
         </>
     )
