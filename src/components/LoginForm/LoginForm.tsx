@@ -1,3 +1,5 @@
+import './LoginForm.scss'
+
 import axios from 'axios'
 import { useState } from "react"
 
@@ -60,8 +62,8 @@ export function LoginForm({ login }: Props) {
         const user = {
             email: email,
             password: password,
-            firstName: firstName,
-            lastName: lastName
+            first_name: firstName,
+            last_name: lastName
         }
         setEmail('')
         setPassword('')
@@ -72,7 +74,7 @@ export function LoginForm({ login }: Props) {
 
     return (
         <>
-            <form onSubmit={login ? handleLogin : handleRegister}>
+            <form onSubmit={login ? handleLogin : handleRegister} className='login-form'>
                 {login ? '' : (
                     <>
                         <label htmlFor="firstName">First Name</label>
