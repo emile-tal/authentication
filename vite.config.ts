@@ -6,6 +6,6 @@ export default defineConfig({
   plugins: [react()],
   server: {
     host: true, // Binds to 0.0.0.0 to allow external access
-    port: 3000, // Ensure this matches your exposed port
+    port: process.env.PORT ? parseInt(process.env.PORT) : 3000, // Ensure this matches your exposed port
   },
 })
