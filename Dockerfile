@@ -2,13 +2,12 @@
 
 FROM node:23
 
-WORKDIR /client
+WORKDIR /app
 
-COPY package.json ./
-COPY package-lock.json ./
+COPY package*.json .
 RUN npm install
 
-COPY . ./
+COPY . .
 
-EXPOSE 5173
+EXPOSE 3000
 CMD ["npm", "start"]
